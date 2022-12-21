@@ -1,7 +1,10 @@
 package io.github.studio116.phoneixplan;
 
+import static io.github.studio116.phoneixplan.Model.ModelTypeAdapter.read;
+
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -16,6 +19,8 @@ import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONException;
 
+import java.sql.Time;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import io.github.studio116.phoneixplan.Model.EventTimeline;
@@ -28,17 +33,29 @@ public class MainActivity extends AppCompatActivity {
     private Timeline myTimeline;
 
     /**
-     * Example timeline save code
+     * Init timeline from in "timeline.json" file
      * */
 
     private void setMyTimeline() {
+        try {
+            myTimeline = new Timeline(read(getApplicationContext(), "timeline.json"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Example timeline save code
+     * */
+
+    private void addEventsToTimeline() {
         EventTimeline Event1 = new EventTimeline();
         Event1.DATE = new Date();
-        Event1.Description = "Testing 101";
+        Event1.DESCRIPTION = "Testing 101";
 
         EventTimeline Event2 = new EventTimeline();
         Event2.DATE = new Date();
-        Event2.Description = "Testing 202";
+        Event2.DESCRIPTION = "Testing 202";
 
         try {
             myTimeline.createEvent("Test1", Event1);
@@ -50,11 +67,19 @@ public class MainActivity extends AppCompatActivity {
         myTimeline.SaveToFile(getApplicationContext());
     }
 
+    /**
+     * Example timeline read code
+     * */
+
+    private void getMyTimeline() {
+        Log.d("current saved timeline",read(getApplicationContext(), "timeline.json"));
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        myTimeline = new Timeline();
+        setMyTimeline();
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -74,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        setMyTimeline();
+        getMyTimeline();
         return true;
     }
 
