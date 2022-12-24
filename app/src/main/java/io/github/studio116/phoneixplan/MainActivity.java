@@ -1,10 +1,17 @@
 package io.github.studio116.phoneixplan;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TimePicker;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -22,6 +29,8 @@ import io.github.studio116.phoneixplan.recyclerview.TimelineAdapter;
 
 public class MainActivity extends AppCompatActivity {
     private final Timeline timeline = new Timeline();
+    PendingIntent pendingIntent;
+    AlarmManager alarmManager;
 
     /**
      * Example timeline save code
@@ -45,10 +54,11 @@ public class MainActivity extends AppCompatActivity {
         event2.name = "Multi-Day Event";
         event2.description = "Testing testing";
         event2.importance = TimelineObject.Importance.NORMAL;
-        event2.timeFrom = new Date();
+
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
         calendar.add(Calendar.DATE, 5);
+        event2.timeFrom = calendar.getTime();
         event2.timeTo = calendar.getTime();
         timeline.objects.add(event2);
         // Save
@@ -62,12 +72,16 @@ public class MainActivity extends AppCompatActivity {
         Log.d("current saved timeline", Util.read(getApplicationContext(), Timeline.FILE_NAME));
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Load Timeline
-        timeline.load(getApplicationContext());
+        Intent dialogIntent = new Intent(getBaseContext(), AlarmReceiver.class);
+        AlarmManager alarmMgr = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, dialogIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP,System.currentTimeMillis()+5000, 5000, pendingIntent);
 
         // Testing
         createTestTimeline();
