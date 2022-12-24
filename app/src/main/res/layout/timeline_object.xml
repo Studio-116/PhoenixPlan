@@ -45,6 +45,7 @@
                 android:textSize="@dimen/timeline_object_name_font_size"
                 android:textStyle="bold"
                 android:gravity="start"
+                android:textAlignment="viewStart"
                 android:includeFontPadding="false"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -83,6 +84,7 @@
                     android:singleLine="true"
                     android:text="TBD"
                     android:gravity="start"
+                    android:textAlignment="viewStart"
                     android:layout_weight="1"
                     tools:ignore="HardcodedText" />
 
