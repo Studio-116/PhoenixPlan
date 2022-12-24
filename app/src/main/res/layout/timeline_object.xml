@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/timeline_object_margin"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardElevation="@dimen/timeline_object_elevation">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/timeline_object_importance_color_bar"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/timeline_object_importance_height"
+                android:layout_marginBottom="@dimen/timeline_object_padding"
+                android:background="@color/importance_low"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/timeline_object_name" />
+
+            <TextView
+                android:id="@+id/timeline_object_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/timeline_object_padding"
+                android:layout_marginEnd="@dimen/timeline_object_padding"
+                android:layout_marginBottom="@dimen/timeline_object_padding"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="TBD"
+                android:textSize="@dimen/timeline_object_name_font_size"
+                android:textStyle="bold"
+                android:gravity="start"
+                android:includeFontPadding="false"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timeline_object_importance_color_bar"
+                app:layout_constraintBottom_toTopOf="@id/timeline_object_date_container"
+                tools:ignore="HardcodedText" />
+
+            <LinearLayout
+                android:id="@+id/timeline_object_date_container"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/timeline_object_name"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:id="@+id/timeline_object_calender_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/timeline_object_padding"
+                    android:layout_marginBottom="@dimen/timeline_object_padding"
+                    app:srcCompat="@drawable/ic_baseline_calendar_today_24"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/timeline_object_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/timeline_object_padding"
+                    android:layout_marginEnd="@dimen/timeline_object_padding"
+                    android:layout_marginBottom="@dimen/timeline_object_padding"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="TBD"
+                    android:gravity="start"
+                    android:layout_weight="1"
+                    tools:ignore="HardcodedText" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</LinearLayout>

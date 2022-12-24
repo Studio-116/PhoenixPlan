@@ -1,3 +1,12 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="empty_space_margin">88dp</dimen>
+    <dimen name="timeline_object_margin">5dp</dimen>
+    <dimen name="timeline_object_elevation">2dp</dimen>
+    <dimen name="timeline_object_name_font_size">18sp</dimen>
+    <dimen name="timeline_object_importance_height">4dp</dimen>
+    <dimen name="timeline_object_padding">8dp</dimen>
+    <dimen name="timeline_date_marker_margin">16dp</dimen>
+    <dimen name="timeline_date_marker_line_height">3dp</dimen>
+    <dimen name="timeline_date_marker_font_size">24sp</dimen>
 </resources>

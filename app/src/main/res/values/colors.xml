@@ -7,4 +7,10 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="calender_icon_color">#C0C0C0</color>
+    <!-- Importance Colors -->
+    <color name="importance_low">@color/calender_icon_color</color>
+    <color name="importance_normal">#1E90FF</color>
+    <color name="importance_high">#FF8C00</color>
+    <color name="importance_very_high">#DC143C</color>
 </resources>
