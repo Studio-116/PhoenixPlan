@@ -2,7 +2,7 @@
     <string name="app_name">PhoenixPlan</string>
     <string name="action_settings">Settings</string>
     <string name="fab_description">Add</string>
-    <string name="timeline_object_event_time_format" formatted="false">%s - %s</string>
+    <string name="timeline_object_event_time_format">%1$s - %2$s</string>
     <string name="create_new">Create New</string>
     <string name="edit">Edit</string>
     <string name="create">Create</string>
@@ -10,7 +10,7 @@
     <string name="cancel">Cancel</string>
     <string name="object_name">Name</string>
     <string name="event_type">Event</string>
-    <string name="deadline_type">Deadline</string>s
+    <string name="deadline_type">Deadline</string>
     <string name="object_time_from_text">from</string>
     <string name="object_time_from_text_alt">on</string>
     <string name="object_time_to_text">to</string>

@@ -65,7 +65,7 @@ public class TimelineObjectViewHolder extends TimelineAdapter.TimelineViewHolder
             String timeFrom = formatter.format(fullData.object.timeFrom);
             DateFormat formatter2 = Util.isNotSameDay(fullData.object.timeFrom, fullData.object.timeTo) ? getDateTimeFormatter() : formatter;
             String timeTo = formatter2.format(fullData.object.timeTo);
-            root.timelineObjectDate.setText(String.format(root.getRoot().getResources().getString(R.string.timeline_object_event_time_format), timeFrom, timeTo));
+            root.timelineObjectDate.setText(root.getRoot().getResources().getString(R.string.timeline_object_event_time_format, timeFrom, timeTo));
         }
         object = fullData.object;
         root.cardView.setOnClickListener(this);
