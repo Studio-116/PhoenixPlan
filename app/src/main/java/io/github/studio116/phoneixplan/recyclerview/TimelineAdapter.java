@@ -1,6 +1,7 @@
 package io.github.studio116.phoneixplan.recyclerview;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -33,7 +37,7 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
     }
 
     public final Timeline timeline;
-    public TimelineAdapter(Timeline timeline) {
+    public TimelineAdapter(Timeline timeline, Resources resources) {
         super(new DiffUtil.ItemCallback<TimelineData>() {
             @Override
             public boolean areItemsTheSame(@NonNull TimelineData oldItem, @NonNull TimelineData newItem) {
@@ -46,7 +50,7 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
             }
         });
         this.timeline = timeline;
-        rebuild();
+        rebuild(resources);
     }
 
     interface TimelineData {
@@ -55,8 +59,10 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
     }
     static class TimelineObjectData implements TimelineData {
         public final TimelineObject object;
-        public TimelineObjectData(TimelineObject object) {
+        public final boolean underCurrentDayHeader;
+        public TimelineObjectData(TimelineObject object, boolean underCurrentDayHeader) {
             this.object = object;
+            this.underCurrentDayHeader = underCurrentDayHeader;
         }
 
         @Override
@@ -68,7 +74,7 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
                 return false;
             }
             TimelineObjectData that = (TimelineObjectData) o;
-            return Objects.equals(object, that.object);
+            return Objects.equals(object, that.object) && underCurrentDayHeader == that.underCurrentDayHeader;
         }
 
         @Override
@@ -85,12 +91,16 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
 
         @Override
         public int hashCode() {
-            return Objects.hash(object);
+            return Objects.hash(object, underCurrentDayHeader);
         }
     }
     static class DateMarkerData implements TimelineData {
-        public final LocalDate date;
-        public DateMarkerData(LocalDate date) {
+        public final String date;
+        public DateMarkerData(LocalDate realDate) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDate(FormatStyle.LONG);
+            this.date = realDate.format(formatter);
+        }
+        public DateMarkerData(String date) {
             this.date = date;
         }
 
@@ -116,20 +126,40 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
             return Objects.hash(date);
         }
     }
-    public void rebuild() {
+    public void rebuild(Resources resources) {
         List<TimelineData> data = new ArrayList<>();
         List<TimelineObject> objects = new ArrayList<>(timeline.objects);
-        Collections.sort(objects, Comparator.comparing(TimelineObject::getDate));
+        // Sort
+        Collections.sort(objects, Comparator.comparing(a -> a.timeFrom));
+        // Late List
+        List<TimelineObject> late = new ArrayList<>();
+        Date now = new Date();
+        for (TimelineObject object : objects) {
+            if (object.isDeadline && object.timeFrom.compareTo(now) < 0) {
+                late.add(object);
+            }
+        }
+        objects.removeAll(late);
+        if (late.size() > 0) {
+            DateMarkerData lateMarker = new DateMarkerData(resources.getString(R.string.late));
+            data.add(lateMarker);
+            for (TimelineObject object : late) {
+                TimelineObjectData objectData = new TimelineObjectData(object, false);
+                data.add(objectData);
+            }
+        }
+        // Build
         TimelineObject last = null;
         for (TimelineObject object : objects) {
-            if (last == null || Util.isNotSameDay(last.getDate(), object.getDate())) {
-                DateMarkerData dateMarker = new DateMarkerData(object.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+            if (last == null || Util.isNotSameDay(last.timeFrom, object.timeFrom)) {
+                DateMarkerData dateMarker = new DateMarkerData(object.timeFrom.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
                 data.add(dateMarker);
             }
-            TimelineObjectData objectData = new TimelineObjectData(object);
+            TimelineObjectData objectData = new TimelineObjectData(object, true);
             data.add(objectData);
             last = object;
         }
+        // Submit
         submitList(data);
     }
 
@@ -140,7 +170,7 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
         LayoutInflater inflater = LayoutInflater.from(context);
         if (viewType == 0) {
             // Timeline Object
-            return new TimelineObjectViewHolder(inflater.inflate(R.layout.timeline_object, parent, false));
+            return new TimelineObjectViewHolder(inflater.inflate(R.layout.timeline_object, parent, false), timeline);
         } else {
             // Date Marker
             return new DateMarkerViewHolder(inflater.inflate(R.layout.timeline_date_marker, parent, false));

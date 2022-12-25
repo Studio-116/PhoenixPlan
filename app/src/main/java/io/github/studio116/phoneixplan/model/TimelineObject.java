@@ -1,10 +1,9 @@
 package io.github.studio116.phoneixplan.model;
 
-import androidx.annotation.Keep;
-
 import java.util.Date;
+import java.util.Objects;
 
-public abstract class TimelineObject {
+public class TimelineObject {
     public enum Importance {
         LOW,
         NORMAL,
@@ -12,11 +11,27 @@ public abstract class TimelineObject {
         VERY_HIGH
     }
 
-    protected abstract String getType();
-    @Keep
-    public final String type = getType();
+    public Importance importance;
+    public String name;
+    public boolean isDeadline;
+    public Date timeFrom;
+    public Date timeTo;
+    public String description;
 
-    public abstract Date getDate();
-    public abstract Importance getImportance();
-    public abstract String getName();
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        TimelineObject that = (TimelineObject) o;
+        return importance == that.importance && Objects.equals(name, that.name) && Objects.equals(timeFrom, that.timeFrom) && Objects.equals(timeTo, that.timeTo) && Objects.equals(description, that.description);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(importance, name, timeFrom, timeTo, description);
+    }
 }

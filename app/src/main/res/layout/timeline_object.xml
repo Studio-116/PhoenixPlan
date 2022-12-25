@@ -6,6 +6,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.card.MaterialCardView
+        style="?attr/materialCardViewElevatedStyle"
         android:id="@+id/card_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -14,8 +15,7 @@
         android:layout_weight="1"
         android:clickable="true"
         android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardElevation="@dimen/timeline_object_elevation">
+        android:foreground="?android:attr/selectableItemBackground">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

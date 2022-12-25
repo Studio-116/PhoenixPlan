@@ -38,3 +38,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.10'
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
 }
+
+tasks.withType(JavaCompile) {
+    options.deprecation = true
+}

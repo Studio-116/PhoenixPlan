@@ -1,66 +1,29 @@
 package io.github.studio116.phoneixplan;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.google.android.material.snackbar.Snackbar;
-
-import java.util.Calendar;
-import java.util.Date;
-
-import io.github.studio116.phoneixplan.model.DeadlineObject;
-import io.github.studio116.phoneixplan.model.EventObject;
+import io.github.studio116.phoneixplan.dialog.EditTimelineObjectDialog;
 import io.github.studio116.phoneixplan.model.Timeline;
 import io.github.studio116.phoneixplan.databinding.ActivityMainBinding;
-import io.github.studio116.phoneixplan.model.TimelineObject;
 import io.github.studio116.phoneixplan.recyclerview.TimelineAdapter;
 
 public class MainActivity extends AppCompatActivity {
-    private final Timeline timeline = new Timeline();
-
-    /**
-     * Example timeline save code
-     */
-    private void createTestTimeline() {
-        timeline.objects.clear();
-        EventObject event1 = new EventObject();
-        event1.name = "Event 1";
-        event1.description = "Testing testing";
-        event1.importance = TimelineObject.Importance.VERY_HIGH;
-        event1.timeFrom = new Date();
-        event1.timeTo = new Date();
-        timeline.objects.add(event1);
-        DeadlineObject deadline1 = new DeadlineObject();
-        deadline1.name = "Deadline 1";
-        deadline1.description = "Testing testing";
-        deadline1.importance = TimelineObject.Importance.LOW;
-        deadline1.time = new Date();
-        timeline.objects.add(deadline1);
-        EventObject event2 = new EventObject();
-        event2.name = "Multi-Day Event";
-        event2.description = "Testing testing";
-        event2.importance = TimelineObject.Importance.NORMAL;
-        event2.timeFrom = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(new Date());
-        calendar.add(Calendar.DATE, 5);
-        event2.timeTo = calendar.getTime();
-        timeline.objects.add(event2);
-        // Save
-        timeline.save(getApplicationContext());
-    }
-
-    /**
-     * Example timeline read code
-     */
-    private void debugTimeline() {
-        Log.d("current saved timeline", Util.read(getApplicationContext(), Timeline.FILE_NAME));
-    }
+    private TimelineAdapter adapter = null;
+    private final Timeline timeline = new Timeline() {
+        @Override
+        public void save(Context context) {
+            super.save(context);
+            if (adapter != null && adapter.timeline == this) {
+                adapter.rebuild(getResources());
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,20 +32,18 @@ public class MainActivity extends AppCompatActivity {
         // Load Timeline
         timeline.load(getApplicationContext());
 
-        // Testing
-        createTestTimeline();
-
         // Load UI
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        setSupportActionBar(binding.toolbar);
+        setSupportActionBar(binding.appbarLayout.toolbar);
 
         // Setup Timeline
-        binding.recyclerView.setAdapter(new TimelineAdapter(timeline));
+        adapter = new TimelineAdapter(timeline, getResources());
+        binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Setup FAB
-        binding.fab.setOnClickListener(view -> Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show());
+        binding.fab.setOnClickListener(view -> new EditTimelineObjectDialog(MainActivity.this, timeline, null));
     }
 
     @Override
@@ -90,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        debugTimeline();
         return true;
     }
 

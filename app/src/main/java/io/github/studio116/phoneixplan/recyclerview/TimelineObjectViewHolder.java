@@ -1,33 +1,41 @@
 package io.github.studio116.phoneixplan.recyclerview;
 
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 import java.text.DateFormat;
 
 import io.github.studio116.phoneixplan.R;
 import io.github.studio116.phoneixplan.Util;
-import io.github.studio116.phoneixplan.model.DeadlineObject;
-import io.github.studio116.phoneixplan.model.EventObject;
+import io.github.studio116.phoneixplan.databinding.TimelineObjectBinding;
+import io.github.studio116.phoneixplan.dialog.ViewTimelineObjectDialog;
+import io.github.studio116.phoneixplan.model.Timeline;
+import io.github.studio116.phoneixplan.model.TimelineObject;
 
-public class TimelineObjectViewHolder extends TimelineAdapter.TimelineViewHolder {
-    public final View importance;
-    public final TextView name;
-    public final TextView date;
-    public TimelineObjectViewHolder(@NonNull View itemView) {
+public class TimelineObjectViewHolder extends TimelineAdapter.TimelineViewHolder implements View.OnClickListener {
+    private final TimelineObjectBinding root;
+    private final Timeline timeline;
+    private TimelineObject object = null;
+    public TimelineObjectViewHolder(@NonNull View itemView, Timeline timeline) {
         super(itemView);
-        importance = itemView.findViewById(R.id.timeline_object_importance_color_bar);
-        name = itemView.findViewById(R.id.timeline_object_name);
-        date = itemView.findViewById(R.id.timeline_object_date);
+        root = TimelineObjectBinding.bind(itemView);
+        this.timeline = timeline;
+    }
+
+    private static DateFormat getTimeFormatter() {
+        return DateFormat.getTimeInstance(DateFormat.SHORT);
+    }
+    private static DateFormat getDateTimeFormatter() {
+        return DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
     }
 
     @Override
     void bind(TimelineAdapter.TimelineData data) {
         TimelineAdapter.TimelineObjectData fullData = (TimelineAdapter.TimelineObjectData) data;
         int importanceColor;
-        switch (fullData.object.getImportance()) {
+        switch (fullData.object.importance) {
             case LOW: {
                 importanceColor = R.color.importance_low;
                 break;
@@ -48,19 +56,25 @@ public class TimelineObjectViewHolder extends TimelineAdapter.TimelineViewHolder
                 throw new UnsupportedOperationException();
             }
         }
-        importance.setBackgroundColor(importance.getResources().getColor(importanceColor));
-        name.setText(fullData.object.getName());
-        DateFormat formatter = DateFormat.getTimeInstance(DateFormat.SHORT);
-        if (fullData.object instanceof DeadlineObject) {
-            date.setText(formatter.format(((DeadlineObject) fullData.object).time));
+        root.timelineObjectImportanceColorBar.setBackgroundColor(ContextCompat.getColor(root.getRoot().getContext(), importanceColor));
+        root.timelineObjectName.setText(fullData.object.name);
+        DateFormat formatter = fullData.underCurrentDayHeader ? getTimeFormatter() : getDateTimeFormatter();
+        if (fullData.object.isDeadline) {
+            root.timelineObjectDate.setText(formatter.format(fullData.object.timeFrom));
         } else {
-            String timeFrom = formatter.format(((EventObject) fullData.object).timeFrom);
-            DateFormat formatter2 = formatter;
-            if (Util.isNotSameDay(((EventObject) fullData.object).timeFrom, ((EventObject) fullData.object).timeTo)) {
-                formatter2 = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
-            }
-            String timeTo = formatter2.format(((EventObject) fullData.object).timeTo);
-            date.setText(String.format(date.getResources().getString(R.string.timeline_object_event_time_format), timeFrom, timeTo));
+            String timeFrom = formatter.format(fullData.object.timeFrom);
+            DateFormat formatter2 = Util.isNotSameDay(fullData.object.timeFrom, fullData.object.timeTo) ? getDateTimeFormatter() : formatter;
+            String timeTo = formatter2.format(fullData.object.timeTo);
+            root.timelineObjectDate.setText(String.format(root.getRoot().getResources().getString(R.string.timeline_object_event_time_format), timeFrom, timeTo));
+        }
+        object = fullData.object;
+        root.cardView.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (object != null) {
+            new ViewTimelineObjectDialog(root.getRoot().getContext(), timeline, object);
         }
     }
 }
