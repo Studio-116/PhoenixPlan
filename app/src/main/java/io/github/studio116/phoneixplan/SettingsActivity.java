@@ -1,18 +1,27 @@
 package io.github.studio116.phoneixplan;
 
+import android.app.Dialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.ListPreference;
+import androidx.preference.ListPreferenceDialogFragmentCompat;
+import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
 import io.github.studio116.phoneixplan.databinding.ActivitySettingsBinding;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +69,51 @@ public class SettingsActivity extends AppCompatActivity {
         public void onPause() {
             Objects.requireNonNull(getPreferenceManager().getSharedPreferences()).unregisterOnSharedPreferenceChangeListener(this);
             super.onPause();
+        }
+
+        @Override
+        public void onDisplayPreferenceDialog(@NonNull Preference preference) {
+            super.onDisplayPreferenceDialog(preference);
+        }
+    }
+
+    // https://stackoverflow.com/a/74112704/16198887
+    public static class MaterialListPreference extends ListPreferenceDialogFragmentCompat {
+        public MaterialListPreference(Preference preference) {
+            Bundle bundle = new Bundle(1);
+            bundle.putString(ARG_KEY, preference.getKey());
+            setArguments(bundle);
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(requireActivity())
+                    .setTitle(getPreference().getTitle())
+                    .setPositiveButton(getPreference().getPositiveButtonText(), this)
+                    .setNegativeButton(getPreference().getNegativeButtonText(), this);
+            View root = onCreateDialogView(requireActivity());
+            if (root == null) {
+                builder.setMessage(getPreference().getDialogMessage());
+            } else {
+                onBindDialogView(root);
+                builder.setView(root);
+            }
+            onPrepareDialogBuilder(builder);
+            return builder.create();
+        }
+    }
+
+    @Override
+    public boolean onPreferenceDisplayDialog(@NonNull PreferenceFragmentCompat caller, @NonNull Preference pref) {
+        if (pref instanceof ListPreference) {
+            MaterialListPreference dialogFragment = new MaterialListPreference(pref);
+            //noinspection deprecation
+            dialogFragment.setTargetFragment(caller, 0);
+            dialogFragment.show(getSupportFragmentManager(), dialogFragment.toString());
+            return true;
+        } else {
+            return false;
         }
     }
 }
