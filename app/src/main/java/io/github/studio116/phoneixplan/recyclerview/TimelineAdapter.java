@@ -61,7 +61,7 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
         public final TimelineObject object;
         public final boolean underCurrentDayHeader;
         public TimelineObjectData(TimelineObject object, boolean underCurrentDayHeader) {
-            this.object = object;
+            this.object = object.clone();
             this.underCurrentDayHeader = underCurrentDayHeader;
         }
 
@@ -86,7 +86,7 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
                 return false;
             }
             TimelineObjectData that = (TimelineObjectData) o;
-            return object == that.object;
+            return object.id == that.object.id;
         }
 
         @Override

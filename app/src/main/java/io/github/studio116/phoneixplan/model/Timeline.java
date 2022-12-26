@@ -51,4 +51,16 @@ public class Timeline {
     public void reset() {
         objects.clear();
     }
+
+    /**
+     * Gets an object based on its id
+     */
+    public TimelineObject get(int id) {
+        for (TimelineObject object : objects) {
+            if (object.id == id) {
+                return object;
+            }
+        }
+        return null;
+    }
 }

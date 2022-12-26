@@ -9,17 +9,16 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import io.github.studio116.phoneixplan.R;
 import io.github.studio116.phoneixplan.model.Timeline;
-import io.github.studio116.phoneixplan.model.TimelineObject;
 
 public class DeleteTimelineObjectDialog implements View.OnClickListener {
     private final Timeline timeline;
-    private final TimelineObject object;
+    private final int id;
     public final AlertDialog parentDialog;
     public final AlertDialog dialog;
 
-    public DeleteTimelineObjectDialog(Context context, AlertDialog parentDialog, Timeline timeline, TimelineObject object) {
+    public DeleteTimelineObjectDialog(Context context, AlertDialog parentDialog, Timeline timeline, int id) {
         this.timeline = timeline;
-        this.object = object;
+        this.id = id;
         this.parentDialog = parentDialog;
 
         // Show Dialog
@@ -36,7 +35,7 @@ public class DeleteTimelineObjectDialog implements View.OnClickListener {
     public void onClick(View v) {
         if (v == dialog.getButton(AlertDialog.BUTTON_POSITIVE)) {
             // Delete
-            timeline.objects.remove(object);
+            timeline.objects.removeIf(x -> x.id == id);
             timeline.save(dialog.getContext().getApplicationContext());
             // Close Parent Dialog
             if (parentDialog.isShowing()) {

@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Setup FAB
-        binding.fab.setOnClickListener(view -> new EditTimelineObjectDialog(MainActivity.this, timeline, null));
+        binding.fab.setOnClickListener(view -> new EditTimelineObjectDialog(MainActivity.this, timeline, -1));
     }
 
     @Override

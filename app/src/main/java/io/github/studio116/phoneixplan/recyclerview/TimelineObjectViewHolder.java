@@ -74,7 +74,7 @@ public class TimelineObjectViewHolder extends TimelineAdapter.TimelineViewHolder
     @Override
     public void onClick(View v) {
         if (object != null) {
-            new ViewTimelineObjectDialog(root.getRoot().getContext(), timeline, object);
+            new ViewTimelineObjectDialog(root.getRoot().getContext(), timeline, object.id);
         }
     }
 }

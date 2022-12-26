@@ -1,15 +1,20 @@
 package io.github.studio116.phoneixplan.model;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 import java.util.Objects;
 
-public class TimelineObject {
+public class TimelineObject implements Cloneable {
     public enum Importance {
         LOW,
         NORMAL,
         HIGH,
         VERY_HIGH
     }
+
+    private static int idCounter = 0;
+    public final transient int id = idCounter++;
 
     public Importance importance;
     public String name;
@@ -33,5 +38,18 @@ public class TimelineObject {
     @Override
     public int hashCode() {
         return Objects.hash(importance, name, timeFrom, timeTo, description);
+    }
+
+    @NonNull
+    @Override
+    public TimelineObject clone() {
+        try {
+            TimelineObject clone = (TimelineObject) super.clone();
+            clone.timeFrom = timeFrom != null ? (Date) timeFrom.clone() : null;
+            clone.timeTo = timeTo != null ? (Date) timeTo.clone() : null;
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

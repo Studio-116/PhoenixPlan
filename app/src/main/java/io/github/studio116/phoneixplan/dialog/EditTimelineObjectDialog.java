@@ -119,10 +119,10 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
     private final DateHandler timeTo;
     public final AlertDialog dialog;
 
-    public EditTimelineObjectDialog(Context context, Timeline timeline, TimelineObject object) {
+    public EditTimelineObjectDialog(Context context, Timeline timeline, int id) {
         this.timeline = timeline;
-        boolean isNew = object == null;
-        this.object = !isNew ? object : new TimelineObject();
+        boolean isNew = id == -1;
+        this.object = !isNew ? timeline.get(id) : new TimelineObject();
 
         // Setup UI
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -141,14 +141,15 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
             // Type
             root.objectType.check(object.isDeadline ? R.id.object_deadline_type : R.id.object_event_type);
             // Importance
-            root.objectImportanceInput.setText(context.getResources().getStringArray(R.array.object_importance)[object.importance.ordinal()]);
+            int importance = object.importance.ordinal();
+            root.objectImportanceInput.setText(context.getResources().getStringArray(R.array.object_importance)[importance], false);
             // Description
             root.objectDescriptionInput.setText(object.description);
         }
 
         // Setup Dates
-        timeFrom = new DateHandler(object == null ? new Date() : object.timeFrom, root.objectTimeFromDate, root.objectTimeFromTime);
-        timeTo = new DateHandler(object == null || object.isDeadline ? new Date() : object.timeTo, root.objectTimeToDate, root.objectTimeToTime);
+        timeFrom = new DateHandler(isNew ? new Date() : object.timeFrom, root.objectTimeFromDate, root.objectTimeFromTime);
+        timeTo = new DateHandler(isNew || object.isDeadline ? new Date() : object.timeTo, root.objectTimeToDate, root.objectTimeToTime);
 
         // Show Dialog
         dialog = new MaterialAlertDialogBuilder(context)
@@ -177,7 +178,6 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
                 // Missing Name
                 root.objectName.setError(root.getRoot().getResources().getString(R.string.required));
                 new MaterialAlertDialogBuilder(root.getRoot().getContext())
-                        .setTitle(R.string.invalid_dialog_title)
                         .setMessage(R.string.missing_name)
                         .setNeutralButton(R.string.ok, null)
                         .show();
@@ -185,7 +185,6 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
             } else if (!isDeadline && timeFrom.date.compareTo(timeTo.date) > 0) {
                 // Invalid Date
                 new MaterialAlertDialogBuilder(root.getRoot().getContext())
-                        .setTitle(R.string.invalid_dialog_title)
                         .setMessage(R.string.invalid_date)
                         .setNeutralButton(R.string.ok, null)
                         .show();
