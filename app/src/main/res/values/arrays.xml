@@ -1,0 +1,23 @@
+<resources>
+    <!-- Importance -->
+    <string name="object_importance_normal">Normal</string>
+    <string-array name="object_importance">
+        <item>Low</item>
+        <item>@string/object_importance_normal</item>
+        <item>High</item>
+        <item>Very High</item>
+    </string-array>
+
+    <!-- Dark Mode Settings -->
+    <string-array name="settings_dark_mode_entries">
+        <item>Auto</item>
+        <item>Always</item>
+        <item>Never</item>
+    </string-array>
+    <string name="settings_dark_mode_default">system</string>
+    <string-array name="settings_dark_mode_values">
+        <item>system</item>
+        <item>on</item>
+        <item>off</item>
+    </string-array>
+</resources>

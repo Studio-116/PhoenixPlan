@@ -15,12 +15,12 @@ import io.github.studio116.phoneixplan.model.Timeline;
 import io.github.studio116.phoneixplan.model.TimelineObject;
 
 public class TimelineObjectViewHolder extends TimelineAdapter.TimelineViewHolder implements View.OnClickListener {
-    private final TimelineObjectBinding root;
+    private final TimelineObjectBinding binding;
     private final Timeline timeline;
     private TimelineObject object = null;
     public TimelineObjectViewHolder(@NonNull View itemView, Timeline timeline) {
         super(itemView);
-        root = TimelineObjectBinding.bind(itemView);
+        binding = TimelineObjectBinding.bind(itemView);
         this.timeline = timeline;
     }
 
@@ -56,25 +56,25 @@ public class TimelineObjectViewHolder extends TimelineAdapter.TimelineViewHolder
                 throw new UnsupportedOperationException();
             }
         }
-        root.timelineObjectImportanceColorBar.setBackgroundColor(ContextCompat.getColor(root.getRoot().getContext(), importanceColor));
-        root.timelineObjectName.setText(fullData.object.name);
+        binding.timelineObjectImportanceColorBar.setBackgroundColor(ContextCompat.getColor(binding.getRoot().getContext(), importanceColor));
+        binding.timelineObjectName.setText(fullData.object.name);
         DateFormat formatter = fullData.underCurrentDayHeader ? getTimeFormatter() : getDateTimeFormatter();
         if (fullData.object.isDeadline) {
-            root.timelineObjectDate.setText(formatter.format(fullData.object.timeFrom));
+            binding.timelineObjectDate.setText(formatter.format(fullData.object.timeFrom));
         } else {
             String timeFrom = formatter.format(fullData.object.timeFrom);
             DateFormat formatter2 = Util.isNotSameDay(fullData.object.timeFrom, fullData.object.timeTo) ? getDateTimeFormatter() : formatter;
             String timeTo = formatter2.format(fullData.object.timeTo);
-            root.timelineObjectDate.setText(root.getRoot().getResources().getString(R.string.timeline_object_event_time_format, timeFrom, timeTo));
+            binding.timelineObjectDate.setText(binding.getRoot().getResources().getString(R.string.timeline_object_event_time_format, timeFrom, timeTo));
         }
         object = fullData.object;
-        root.cardView.setOnClickListener(this);
+        binding.cardView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (object != null) {
-            new ViewTimelineObjectDialog(root.getRoot().getContext(), timeline, object.id);
+            new ViewTimelineObjectDialog(binding.getRoot().getContext(), timeline, object.id);
         }
     }
 }

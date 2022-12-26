@@ -1,13 +1,19 @@
 <resources>
     <string name="app_name">PhoenixPlan</string>
     <string name="action_settings">Settings</string>
+    <!-- FAB -->
     <string name="fab_description">Add</string>
+    <!-- Timeline -->
+    <string name="late">Late</string>
     <string name="timeline_object_event_time_format">%1$s - %2$s</string>
+    <!-- Dialogs -->
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <!-- Create Timeline Object Dialog -->
     <string name="create_new">New</string>
     <string name="edit">Edit</string>
     <string name="create">Create</string>
     <string name="save">Save</string>
-    <string name="cancel">Cancel</string>
     <string name="object_name">Name</string>
     <string name="event_type">Event</string>
     <string name="deadline_type">Deadline</string>
@@ -17,20 +23,17 @@
     <string name="object_time_at">at</string>
     <string name="object_description">Description</string>
     <string name="object_importance">Importance</string>
-    <string name="object_importance_normal">Normal</string>
-    <string-array name="object_importance">
-        <item>Low</item>
-        <item>@string/object_importance_normal</item>
-        <item>High</item>
-        <item>Very High</item>
-    </string-array>
     <string name="pick_time">Pick Time</string>
     <string name="pick_date">Pick Date</string>
-    <string name="ok">OK</string>
     <string name="missing_name">A name is required.</string>
     <string name="invalid_date">The second date/time combination must be after the first combination.</string>
-    <string name="late">Late</string>
-    <string name="required">Required</string>
+    <string name="required_error">Required</string>
+    <!-- Delete Dialog -->
     <string name="delete">Delete</string>
     <string name="are_you_sure_dialog">Are you sure you want to delete this? This operation cannot be undone.</string>
+    <!-- Settings -->
+    <string name="settings_general">General</string>
+    <string name="settings_dark_mode">Dark Mode</string>
+    <string name="settings_show_late_deadlines_separately">Separate Late Deadlines</string>
+    <string name="settings_show_late_deadlines_separately_description">This highlights late deadlines by moving them to a separate section.</string>
 </resources>

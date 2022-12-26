@@ -1,12 +1,13 @@
 package io.github.studio116.phoneixplan.recyclerview;
 
 import android.content.Context;
-import android.content.res.Resources;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -37,7 +38,7 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
     }
 
     public final Timeline timeline;
-    public TimelineAdapter(Timeline timeline, Resources resources) {
+    public TimelineAdapter(Timeline timeline, Context context) {
         super(new DiffUtil.ItemCallback<TimelineData>() {
             @Override
             public boolean areItemsTheSame(@NonNull TimelineData oldItem, @NonNull TimelineData newItem) {
@@ -50,7 +51,7 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
             }
         });
         this.timeline = timeline;
-        rebuild(resources);
+        rebuild(context);
     }
 
     interface TimelineData {
@@ -126,26 +127,29 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
             return Objects.hash(date);
         }
     }
-    public void rebuild(Resources resources) {
+    public void rebuild(Context context) {
         List<TimelineData> data = new ArrayList<>();
         List<TimelineObject> objects = new ArrayList<>(timeline.objects);
         // Sort
         Collections.sort(objects, Comparator.comparing(a -> a.timeFrom));
         // Late List
-        List<TimelineObject> late = new ArrayList<>();
-        Date now = new Date();
-        for (TimelineObject object : objects) {
-            if (object.isDeadline && object.timeFrom.compareTo(now) < 0) {
-                late.add(object);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        if (preferences.getBoolean("show_late_deadlines_separately", context.getResources().getBoolean(R.bool.settings_show_late_deadlines_separately_default))) {
+            List<TimelineObject> late = new ArrayList<>();
+            Date now = new Date();
+            for (TimelineObject object : objects) {
+                if (object.isDeadline && object.timeFrom.compareTo(now) < 0) {
+                    late.add(object);
+                }
             }
-        }
-        objects.removeAll(late);
-        if (late.size() > 0) {
-            DateMarkerData lateMarker = new DateMarkerData(resources.getString(R.string.late));
-            data.add(lateMarker);
-            for (TimelineObject object : late) {
-                TimelineObjectData objectData = new TimelineObjectData(object, false);
-                data.add(objectData);
+            objects.removeAll(late);
+            if (late.size() > 0) {
+                DateMarkerData lateMarker = new DateMarkerData(context.getString(R.string.late));
+                data.add(lateMarker);
+                for (TimelineObject object : late) {
+                    TimelineObjectData objectData = new TimelineObjectData(object, false);
+                    data.add(objectData);
+                }
             }
         }
         // Build

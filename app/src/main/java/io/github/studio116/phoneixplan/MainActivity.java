@@ -1,6 +1,7 @@
 package io.github.studio116.phoneixplan;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         public void save(Context context) {
             super.save(context);
             if (adapter != null && adapter.timeline == this) {
-                adapter.rebuild(getResources());
+                adapter.rebuild(context);
             }
         }
     };
@@ -38,12 +39,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(binding.appbarLayout.toolbar);
 
         // Setup Timeline
-        adapter = new TimelineAdapter(timeline, getResources());
+        adapter = new TimelineAdapter(timeline, this);
         binding.recyclerView.setAdapter(adapter);
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Setup FAB
         binding.fab.setOnClickListener(view -> new EditTimelineObjectDialog(MainActivity.this, timeline, -1));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (adapter != null) {
+            adapter.rebuild(this);
+        }
     }
 
     @Override
@@ -63,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            // TODO: Make a settings activity.
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 

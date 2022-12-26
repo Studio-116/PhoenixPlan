@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Settings -->
+    <bool name="settings_show_late_deadlines_separately_default">true</bool>
+</resources>

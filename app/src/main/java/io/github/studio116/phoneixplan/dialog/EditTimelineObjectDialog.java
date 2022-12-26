@@ -114,7 +114,7 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
 
     private final Timeline timeline;
     private final TimelineObject object;
-    private final DialogEditTimelineObjectBinding root;
+    private final DialogEditTimelineObjectBinding binding;
     private final DateHandler timeFrom;
     private final DateHandler timeTo;
     public final AlertDialog dialog;
@@ -126,35 +126,35 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
 
         // Setup UI
         LayoutInflater inflater = LayoutInflater.from(context);
-        root = DialogEditTimelineObjectBinding.inflate(inflater, null, false);
+        binding = DialogEditTimelineObjectBinding.inflate(inflater, null, false);
 
         // Toggle Time-To Visibility
-        root.objectType.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            root.objectTimeTo.setVisibility(group.getCheckedButtonId() == R.id.object_event_type ? View.VISIBLE : View.GONE);
-            root.objectTimeFromText.setText(group.getCheckedButtonId() == R.id.object_event_type ? R.string.object_time_from_text : R.string.object_time_from_text_alt);
+        binding.objectType.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+            binding.objectTimeTo.setVisibility(group.getCheckedButtonId() == R.id.object_event_type ? View.VISIBLE : View.GONE);
+            binding.objectTimeFromText.setText(group.getCheckedButtonId() == R.id.object_event_type ? R.string.object_time_from_text : R.string.object_time_from_text_alt);
         });
 
         // Prefill
         if (!isNew) {
             // Name
-            root.objectNameInput.setText(object.name);
+            binding.objectNameInput.setText(object.name);
             // Type
-            root.objectType.check(object.isDeadline ? R.id.object_deadline_type : R.id.object_event_type);
+            binding.objectType.check(object.isDeadline ? R.id.object_deadline_type : R.id.object_event_type);
             // Importance
             int importance = object.importance.ordinal();
-            root.objectImportanceInput.setText(context.getResources().getStringArray(R.array.object_importance)[importance], false);
+            binding.objectImportanceInput.setText(context.getResources().getStringArray(R.array.object_importance)[importance], false);
             // Description
-            root.objectDescriptionInput.setText(object.description);
+            binding.objectDescriptionInput.setText(object.description);
         }
 
         // Setup Dates
-        timeFrom = new DateHandler(isNew ? new Date() : object.timeFrom, root.objectTimeFromDate, root.objectTimeFromTime);
-        timeTo = new DateHandler(isNew || object.isDeadline ? new Date() : object.timeTo, root.objectTimeToDate, root.objectTimeToTime);
+        timeFrom = new DateHandler(isNew ? new Date() : object.timeFrom, binding.objectTimeFromDate, binding.objectTimeFromTime);
+        timeTo = new DateHandler(isNew || object.isDeadline ? new Date() : object.timeTo, binding.objectTimeToDate, binding.objectTimeToTime);
 
         // Show Dialog
         dialog = new MaterialAlertDialogBuilder(context)
                 .setTitle(isNew ? R.string.create_new : R.string.edit)
-                .setView(root.getRoot())
+                .setView(binding.getRoot())
                 .setPositiveButton(isNew ? R.string.create : R.string.save, null)
                 .setNegativeButton(R.string.cancel, null)
                 .show();
@@ -173,18 +173,18 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
             // Create/Save
 
             // Check Validity
-            boolean isDeadline = root.objectType.getCheckedButtonId() != R.id.object_event_type;
-            if (getText(root.objectNameInput).length() == 0) {
+            boolean isDeadline = binding.objectType.getCheckedButtonId() != R.id.object_event_type;
+            if (getText(binding.objectNameInput).length() == 0) {
                 // Missing Name
-                root.objectName.setError(root.getRoot().getResources().getString(R.string.required));
-                new MaterialAlertDialogBuilder(root.getRoot().getContext())
+                binding.objectName.setError(binding.getRoot().getResources().getString(R.string.required_error));
+                new MaterialAlertDialogBuilder(binding.getRoot().getContext())
                         .setMessage(R.string.missing_name)
                         .setNeutralButton(R.string.ok, null)
                         .show();
                 return;
             } else if (!isDeadline && timeFrom.date.compareTo(timeTo.date) > 0) {
                 // Invalid Date
-                new MaterialAlertDialogBuilder(root.getRoot().getContext())
+                new MaterialAlertDialogBuilder(binding.getRoot().getContext())
                         .setMessage(R.string.invalid_date)
                         .setNeutralButton(R.string.ok, null)
                         .show();
@@ -192,22 +192,22 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
             }
 
             // Name
-            object.name = getText(root.objectNameInput);
+            object.name = getText(binding.objectNameInput);
             // Description
-            object.description = getText(root.objectDescriptionInput);
+            object.description = getText(binding.objectDescriptionInput);
             // Date
             object.timeFrom = timeFrom.date;
             object.isDeadline = isDeadline;
             object.timeTo = !object.isDeadline ? timeTo.date : null;
             // Importance
-            int importanceIndex = Arrays.asList(root.getRoot().getResources().getStringArray(R.array.object_importance)).indexOf(getText(root.objectImportanceInput));
+            int importanceIndex = Arrays.asList(binding.getRoot().getResources().getStringArray(R.array.object_importance)).indexOf(getText(binding.objectImportanceInput));
             object.importance = TimelineObject.Importance.values()[importanceIndex];
 
             // Save
             if (!timeline.objects.contains(object)) {
                 timeline.objects.add(object);
             }
-            timeline.save(root.getRoot().getContext().getApplicationContext());
+            timeline.save(binding.getRoot().getContext().getApplicationContext());
         }
         // Close Dialog
         dialog.dismiss();

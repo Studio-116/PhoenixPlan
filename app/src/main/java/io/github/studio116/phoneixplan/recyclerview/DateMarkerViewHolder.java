@@ -5,17 +5,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import io.github.studio116.phoneixplan.R;
+import io.github.studio116.phoneixplan.databinding.TimelineDateMarkerBinding;
 
 public class DateMarkerViewHolder extends TimelineAdapter.TimelineViewHolder {
-    private final TextView date;
+    private final TimelineDateMarkerBinding binding;
     public DateMarkerViewHolder(@NonNull View itemView) {
         super(itemView);
-        date = itemView.findViewById(R.id.timeline_date_marker_text);
+        binding = TimelineDateMarkerBinding.bind(itemView);
     }
 
     @Override
     void bind(TimelineAdapter.TimelineData data) {
-        date.setText(((TimelineAdapter.DateMarkerData) data).date);
+        binding.timelineDateMarkerText.setText(((TimelineAdapter.DateMarkerData) data).date);
     }
 }
