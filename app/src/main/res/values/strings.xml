@@ -36,4 +36,17 @@
     <string name="settings_dark_mode">Dark Mode</string>
     <string name="settings_show_late_deadlines_separately">Separate Late Deadlines</string>
     <string name="settings_show_late_deadlines_separately_description">This highlights late deadlines by moving them to a separate section.</string>
+    <string name="settings_debugging">Debugging</string>
+    <string name="settings_reschedule_notifications">Reschedule Notifications</string>
+    <!-- Notifications -->
+    <string name="notifications_event_1_hour">Starting in 1 hour!</string>
+    <string name="notifications_event_30_minutes">Starting in 30 minutes!</string>
+    <string name="notifications_event_5_minutes">Starting in 5 minutes!</string>
+    <string name="notifications_event_now">Event in progress!</string>
+    <string name="notifications_event_ended">Event has ended.</string>
+    <string name="notifications_deadline_1_hour">Due in 1 hour!</string>
+    <string name="notifications_deadline_30_minutes">Due in 30 minutes!</string>
+    <string name="notifications_deadline_5_minutes">Due in 5 minutes!</string>
+    <string name="notifications_deadline_now">Due now!</string>
+    <string name="notifications_channel_name">Reminders</string>
 </resources>

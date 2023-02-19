@@ -22,4 +22,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        app:iconSpaceReserved="false"
+        app:title="@string/settings_debugging">
+
+        <Preference
+            app:key="reschedule_notifications"
+            app:title="@string/settings_reschedule_notifications"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

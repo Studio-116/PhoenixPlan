@@ -7,6 +7,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
+import java.util.UUID;
+
 import io.github.studio116.phoneixplan.R;
 import io.github.studio116.phoneixplan.model.Timeline;
 import io.github.studio116.phoneixplan.model.TimelineObject;
@@ -16,7 +18,7 @@ public class ViewTimelineObjectDialog implements View.OnClickListener {
     private final TimelineObject object;
     public final AlertDialog dialog;
 
-    public ViewTimelineObjectDialog(Context context, Timeline timeline, int id) {
+    public ViewTimelineObjectDialog(Context context, Timeline timeline, UUID id) {
         this.timeline = timeline;
         this.object = timeline.get(id);
 

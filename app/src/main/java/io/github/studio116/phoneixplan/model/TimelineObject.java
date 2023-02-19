@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 public class TimelineObject implements Cloneable {
     public enum Importance {
@@ -13,8 +14,7 @@ public class TimelineObject implements Cloneable {
         VERY_HIGH
     }
 
-    private static int idCounter = 0;
-    public final transient int id = idCounter++;
+    public UUID id = UUID.randomUUID();
 
     public Importance importance;
     public String name;

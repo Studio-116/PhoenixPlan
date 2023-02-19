@@ -20,6 +20,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.Objects;
 
 import io.github.studio116.phoneixplan.databinding.ActivitySettingsBinding;
+import io.github.studio116.phoneixplan.notification.Scheduler;
 
 public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback {
     @Override
@@ -50,6 +51,13 @@ public class SettingsActivity extends AppCompatActivity implements PreferenceFra
         @Override
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
+
+            Preference rescheduleNotifications = findPreference("reschedule_notifications");
+            assert rescheduleNotifications != null;
+            rescheduleNotifications.setOnPreferenceClickListener(preference -> {
+                Scheduler.update(requireContext());
+                return true;
+            });
         }
 
         @Override

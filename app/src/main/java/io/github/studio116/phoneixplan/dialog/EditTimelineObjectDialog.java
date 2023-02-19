@@ -14,17 +14,20 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.timepicker.MaterialTimePicker;
+import com.google.android.material.timepicker.TimeFormat;
 
 import java.text.DateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+import java.util.UUID;
 
 import io.github.studio116.phoneixplan.R;
 import io.github.studio116.phoneixplan.databinding.DialogEditTimelineObjectBinding;
 import io.github.studio116.phoneixplan.model.Timeline;
 import io.github.studio116.phoneixplan.model.TimelineObject;
+import io.github.studio116.phoneixplan.notification.Scheduler;
 
 public class EditTimelineObjectDialog implements View.OnClickListener {
     private static class DateHandler implements View.OnClickListener {
@@ -96,6 +99,7 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
                 MaterialTimePicker picker = new MaterialTimePicker.Builder()
                         .setTitleText(R.string.pick_time)
                         .setInputMode(MaterialTimePicker.INPUT_MODE_CLOCK)
+                        .setTimeFormat(android.text.format.DateFormat.is24HourFormat(v.getContext()) ? TimeFormat.CLOCK_24H : TimeFormat.CLOCK_12H)
                         .setHour(calendar.get(Calendar.HOUR_OF_DAY))
                         .setMinute(calendar.get(Calendar.MINUTE))
                         .build();
@@ -119,9 +123,9 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
     private final DateHandler timeTo;
     public final AlertDialog dialog;
 
-    public EditTimelineObjectDialog(Context context, Timeline timeline, int id) {
+    public EditTimelineObjectDialog(Context context, Timeline timeline, UUID id) {
         this.timeline = timeline;
-        boolean isNew = id == -1;
+        boolean isNew = id == null;
         this.object = !isNew ? timeline.get(id) : new TimelineObject();
 
         // Setup UI
@@ -208,6 +212,9 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
                 timeline.objects.add(object);
             }
             timeline.save(binding.getRoot().getContext().getApplicationContext());
+
+            // Schedule Notifications
+            Scheduler.schedule(binding.getRoot().getContext(), object, false);
         }
         // Close Dialog
         dialog.dismiss();

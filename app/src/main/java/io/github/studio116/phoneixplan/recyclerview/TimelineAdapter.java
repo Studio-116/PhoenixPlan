@@ -87,7 +87,7 @@ public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, T
                 return false;
             }
             TimelineObjectData that = (TimelineObjectData) o;
-            return object.id == that.object.id;
+            return object.id.equals(that.object.id);
         }
 
         @Override

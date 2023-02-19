@@ -8,6 +8,7 @@ import com.google.gson.InstanceCreator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import io.github.studio116.phoneixplan.Util;
 
@@ -55,9 +56,9 @@ public class Timeline {
     /**
      * Gets an object based on its id
      */
-    public TimelineObject get(int id) {
+    public TimelineObject get(UUID id) {
         for (TimelineObject object : objects) {
-            if (object.id == id) {
+            if (object.id.equals(id)) {
                 return object;
             }
         }
