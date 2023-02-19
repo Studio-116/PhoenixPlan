@@ -126,7 +126,7 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
     public EditTimelineObjectDialog(Context context, Timeline timeline, UUID id) {
         this.timeline = timeline;
         boolean isNew = id == null;
-        this.object = !isNew ? timeline.get(id) : new TimelineObject();
+        this.object = !isNew ? timeline.get(id) : timeline.create();
 
         // Setup UI
         LayoutInflater inflater = LayoutInflater.from(context);

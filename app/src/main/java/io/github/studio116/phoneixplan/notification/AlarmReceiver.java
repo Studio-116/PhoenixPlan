@@ -27,18 +27,28 @@ import io.github.studio116.phoneixplan.model.TimelineObject;
 
 public class AlarmReceiver extends BroadcastReceiver {
     enum Message {
-        DEADLINE_1_HOUR(R.string.notifications_deadline_1_hour), DEADLINE_30_MINUTES(R.string.notifications_deadline_30_minutes), DEADLINE_5_MINUTES(R.string.notifications_deadline_5_minutes), DEADLINE_NOW(R.string.notifications_deadline_now), EVENT_1_HOUR(R.string.notifications_event_1_hour), EVENT_30_MINUTES(R.string.notifications_event_30_minutes), EVENT_5_MINUTES(R.string.notifications_event_5_minutes), EVENT_NOW(R.string.notifications_event_now), EVENT_ENDED(R.string.notifications_event_ended);
+        DEADLINE_1_HOUR(R.string.notifications_deadline_1_hour),
+        DEADLINE_30_MINUTES(R.string.notifications_deadline_30_minutes),
+        DEADLINE_5_MINUTES(R.string.notifications_deadline_5_minutes),
+        DEADLINE_NOW(R.string.notifications_deadline_now),
+        EVENT_1_HOUR(R.string.notifications_event_1_hour),
+        EVENT_30_MINUTES(R.string.notifications_event_30_minutes),
+        EVENT_5_MINUTES(R.string.notifications_event_5_minutes),
+        EVENT_NOW(R.string.notifications_event_now),
+        EVENT_ENDED(R.string.notifications_event_ended);
 
         @StringRes
         private final int id;
 
-        Message(int id) {
+        Message(@StringRes int id) {
             this.id = id;
         }
     }
 
     enum Mode {
-        SEND, SEND_PERSISTENT, CANCEL
+        SEND,
+        SEND_PERSISTENT,
+        CANCEL
     }
 
     static class Config implements Serializable {

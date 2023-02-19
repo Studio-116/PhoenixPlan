@@ -14,8 +14,7 @@ public class TimelineObject implements Cloneable {
         VERY_HIGH
     }
 
-    public UUID id = UUID.randomUUID();
-
+    public UUID id;
     public Importance importance;
     public String name;
     public boolean isDeadline;

@@ -103,6 +103,8 @@ public class Scheduler {
     }
 
     public static void update(Context context) {
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(context);
+        notificationManager.cancelAll();
         Timeline timeline = new Timeline();
         timeline.load(context.getApplicationContext());
         for (TimelineObject object : timeline.objects) {

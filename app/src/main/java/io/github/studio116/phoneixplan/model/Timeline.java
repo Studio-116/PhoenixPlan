@@ -64,4 +64,25 @@ public class Timeline {
         }
         return null;
     }
+
+    /**
+     * Creates new object with a unique ID. This object is not added to the timeline.
+     */
+    public TimelineObject create() {
+        TimelineObject object = new TimelineObject();
+        while (true) {
+            object.id = UUID.randomUUID();
+            boolean valid = true;
+            for (TimelineObject other : objects) {
+                if (other.id.equals(object.id)) {
+                    valid = false;
+                    break;
+                }
+            }
+            if (valid) {
+                break;
+            }
+        }
+        return object;
+    }
 }
