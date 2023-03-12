@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan.notification;
+package io.github.studio116.phoenixplan.notification;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -12,8 +12,8 @@ import androidx.core.app.NotificationManagerCompat;
 import java.util.Calendar;
 import java.util.Date;
 
-import io.github.studio116.phoneixplan.model.Timeline;
-import io.github.studio116.phoneixplan.model.TimelineObject;
+import io.github.studio116.phoenixplan.model.Timeline;
+import io.github.studio116.phoenixplan.model.TimelineObject;
 
 public class Scheduler {
     private static void schedule(Context context, PendingIntent alarmIntent, Date time, boolean cancel) {

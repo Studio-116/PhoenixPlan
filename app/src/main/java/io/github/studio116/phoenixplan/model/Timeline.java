@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan.model;
+package io.github.studio116.phoenixplan.model;
 
 import android.content.Context;
 
@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import io.github.studio116.phoneixplan.Util;
+import io.github.studio116.phoenixplan.Util;
 
 public class Timeline {
     public static final String FILE_NAME = "timeline.json";

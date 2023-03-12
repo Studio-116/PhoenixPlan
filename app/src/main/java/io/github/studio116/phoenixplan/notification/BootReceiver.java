@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan.notification;
+package io.github.studio116.phoenixplan.notification;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

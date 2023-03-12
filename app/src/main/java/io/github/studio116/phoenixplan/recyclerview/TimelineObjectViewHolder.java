@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan.recyclerview;
+package io.github.studio116.phoenixplan.recyclerview;
 
 import android.view.View;
 
@@ -7,12 +7,12 @@ import androidx.core.content.ContextCompat;
 
 import java.text.DateFormat;
 
-import io.github.studio116.phoneixplan.R;
-import io.github.studio116.phoneixplan.Util;
-import io.github.studio116.phoneixplan.databinding.TimelineObjectBinding;
-import io.github.studio116.phoneixplan.dialog.ViewTimelineObjectDialog;
-import io.github.studio116.phoneixplan.model.Timeline;
-import io.github.studio116.phoneixplan.model.TimelineObject;
+import io.github.studio116.phoenixplan.R;
+import io.github.studio116.phoenixplan.Util;
+import io.github.studio116.phoenixplan.databinding.TimelineObjectBinding;
+import io.github.studio116.phoenixplan.dialog.ViewTimelineObjectDialog;
+import io.github.studio116.phoenixplan.model.Timeline;
+import io.github.studio116.phoenixplan.model.TimelineObject;
 
 public class TimelineObjectViewHolder extends TimelineAdapter.TimelineViewHolder implements View.OnClickListener {
     private final TimelineObjectBinding binding;

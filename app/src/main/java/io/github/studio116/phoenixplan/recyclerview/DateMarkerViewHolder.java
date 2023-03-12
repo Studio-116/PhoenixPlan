@@ -1,11 +1,10 @@
-package io.github.studio116.phoneixplan.recyclerview;
+package io.github.studio116.phoenixplan.recyclerview;
 
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import io.github.studio116.phoneixplan.databinding.TimelineDateMarkerBinding;
+import io.github.studio116.phoenixplan.databinding.TimelineDateMarkerBinding;
 
 public class DateMarkerViewHolder extends TimelineAdapter.TimelineViewHolder {
     private final TimelineDateMarkerBinding binding;

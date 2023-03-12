@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan;
+package io.github.studio116.phoenixplan;
 
 import android.content.Context;
 

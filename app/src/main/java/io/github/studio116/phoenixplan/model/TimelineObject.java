@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan.model;
+package io.github.studio116.phoenixplan.model;
 
 import androidx.annotation.NonNull;
 

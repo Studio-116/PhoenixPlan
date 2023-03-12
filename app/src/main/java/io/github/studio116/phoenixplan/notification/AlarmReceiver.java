@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan.notification;
+package io.github.studio116.phoenixplan.notification;
 
 import android.Manifest;
 import android.app.NotificationChannel;
@@ -20,10 +20,10 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-import io.github.studio116.phoneixplan.MainActivity;
-import io.github.studio116.phoneixplan.R;
-import io.github.studio116.phoneixplan.model.Timeline;
-import io.github.studio116.phoneixplan.model.TimelineObject;
+import io.github.studio116.phoenixplan.MainActivity;
+import io.github.studio116.phoenixplan.R;
+import io.github.studio116.phoenixplan.model.Timeline;
+import io.github.studio116.phoenixplan.model.TimelineObject;
 
 public class AlarmReceiver extends BroadcastReceiver {
     enum Message {

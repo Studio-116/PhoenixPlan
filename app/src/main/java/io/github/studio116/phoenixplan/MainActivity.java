@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan;
+package io.github.studio116.phoenixplan;
 
 import android.Manifest;
 import android.content.Context;
@@ -18,11 +18,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import java.util.UUID;
 
-import io.github.studio116.phoneixplan.dialog.EditTimelineObjectDialog;
-import io.github.studio116.phoneixplan.dialog.ViewTimelineObjectDialog;
-import io.github.studio116.phoneixplan.model.Timeline;
-import io.github.studio116.phoneixplan.databinding.ActivityMainBinding;
-import io.github.studio116.phoneixplan.recyclerview.TimelineAdapter;
+import io.github.studio116.phoenixplan.dialog.EditTimelineObjectDialog;
+import io.github.studio116.phoenixplan.dialog.ViewTimelineObjectDialog;
+import io.github.studio116.phoenixplan.model.Timeline;
+import io.github.studio116.phoenixplan.databinding.ActivityMainBinding;
+import io.github.studio116.phoenixplan.recyclerview.TimelineAdapter;
 
 public class MainActivity extends AppCompatActivity {
     public static final String ARGUMENT_EXTRA = "io.github.studio116.phoneixplan.ARGUMENT_EXTRA";

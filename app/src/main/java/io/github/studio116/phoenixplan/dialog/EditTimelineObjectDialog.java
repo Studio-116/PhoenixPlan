@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan.dialog;
+package io.github.studio116.phoenixplan.dialog;
 
 import android.content.Context;
 import android.content.ContextWrapper;
@@ -23,11 +23,11 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.UUID;
 
-import io.github.studio116.phoneixplan.R;
-import io.github.studio116.phoneixplan.databinding.DialogEditTimelineObjectBinding;
-import io.github.studio116.phoneixplan.model.Timeline;
-import io.github.studio116.phoneixplan.model.TimelineObject;
-import io.github.studio116.phoneixplan.notification.Scheduler;
+import io.github.studio116.phoenixplan.R;
+import io.github.studio116.phoenixplan.databinding.DialogEditTimelineObjectBinding;
+import io.github.studio116.phoenixplan.model.Timeline;
+import io.github.studio116.phoenixplan.model.TimelineObject;
+import io.github.studio116.phoenixplan.notification.Scheduler;
 
 public class EditTimelineObjectDialog implements View.OnClickListener {
     private static class DateHandler implements View.OnClickListener {

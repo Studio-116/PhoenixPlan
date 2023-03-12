@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan.dialog;
+package io.github.studio116.phoenixplan.dialog;
 
 import android.content.Context;
 import android.view.View;
@@ -9,9 +9,9 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.UUID;
 
-import io.github.studio116.phoneixplan.R;
-import io.github.studio116.phoneixplan.model.Timeline;
-import io.github.studio116.phoneixplan.model.TimelineObject;
+import io.github.studio116.phoenixplan.R;
+import io.github.studio116.phoenixplan.model.Timeline;
+import io.github.studio116.phoenixplan.model.TimelineObject;
 
 public class ViewTimelineObjectDialog implements View.OnClickListener {
     private final Timeline timeline;

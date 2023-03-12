@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'io.github.studio116.phoneixplan'
+    namespace 'io.github.studio116.phoenixplan'
     compileSdk 33
 
     defaultConfig {
-        applicationId "io.github.studio116.phoneixplan"
+        applicationId "io.github.studio116.phoenixplan"
         minSdk 21
         targetSdk 33
         versionCode 1

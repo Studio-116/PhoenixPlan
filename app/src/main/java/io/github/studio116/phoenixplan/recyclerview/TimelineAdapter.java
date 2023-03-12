@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan.recyclerview;
+package io.github.studio116.phoenixplan.recyclerview;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,10 +23,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import io.github.studio116.phoneixplan.R;
-import io.github.studio116.phoneixplan.Util;
-import io.github.studio116.phoneixplan.model.Timeline;
-import io.github.studio116.phoneixplan.model.TimelineObject;
+import io.github.studio116.phoenixplan.R;
+import io.github.studio116.phoenixplan.Util;
+import io.github.studio116.phoenixplan.model.Timeline;
+import io.github.studio116.phoenixplan.model.TimelineObject;
 
 public class TimelineAdapter extends ListAdapter<TimelineAdapter.TimelineData, TimelineAdapter.TimelineViewHolder> {
     abstract static class TimelineViewHolder extends RecyclerView.ViewHolder {

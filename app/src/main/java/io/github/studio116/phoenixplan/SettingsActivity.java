@@ -1,4 +1,4 @@
-package io.github.studio116.phoneixplan;
+package io.github.studio116.phoenixplan;
 
 import android.app.Dialog;
 import android.content.SharedPreferences;
@@ -19,8 +19,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Objects;
 
-import io.github.studio116.phoneixplan.databinding.ActivitySettingsBinding;
-import io.github.studio116.phoneixplan.notification.Scheduler;
+import io.github.studio116.phoenixplan.databinding.ActivitySettingsBinding;
+import io.github.studio116.phoenixplan.notification.Scheduler;
 
 public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback {
     @Override
