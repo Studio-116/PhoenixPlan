@@ -12,10 +12,12 @@ import android.view.MenuItem;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import io.github.studio116.phoenixplan.dialog.EditTimelineObjectDialog;
@@ -24,7 +26,7 @@ import io.github.studio116.phoenixplan.model.Timeline;
 import io.github.studio116.phoenixplan.databinding.ActivityMainBinding;
 import io.github.studio116.phoenixplan.recyclerview.TimelineAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     public static final String ARGUMENT_EXTRA = "io.github.studio116.phoneixplan.ARGUMENT_EXTRA";
     private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {});
     private TimelineAdapter adapter = null;
@@ -80,11 +82,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public List<DialogFragment> dialogsToDismiss = new ArrayList<>();
+
     @Override
     protected void onPause() {
         super.onPause();
         // Cancel Refreshing
         handler.removeCallbacks(refreshRunnable);
+        // Dismiss Dialogs
+        for (DialogFragment dialog : dialogsToDismiss) {
+            dialog.dismissAllowingStateLoss();
+        }
+        dialogsToDismiss.clear();
     }
 
     @Override

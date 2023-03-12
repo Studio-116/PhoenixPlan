@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.TimeZone;
 import java.util.UUID;
 
+import io.github.studio116.phoenixplan.MainActivity;
 import io.github.studio116.phoenixplan.R;
 import io.github.studio116.phoenixplan.databinding.DialogEditTimelineObjectBinding;
 import io.github.studio116.phoenixplan.model.Timeline;
@@ -63,6 +65,13 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
             throw new UnsupportedOperationException();
         }
 
+        private static void scheduleDialogToDismiss(Context context, DialogFragment dialog) {
+            AppCompatActivity activity = getActivityFromContext(context);
+            if (activity instanceof MainActivity) {
+                ((MainActivity) activity).dialogsToDismiss.add(dialog);
+            }
+        }
+
         private static void copyDateFromCalender(Calendar src, Calendar dst) {
             int year = src.get(Calendar.YEAR);
             int month = src.get(Calendar.MONTH);
@@ -97,6 +106,7 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
                     }
                 });
                 picker.show(getActivityFromContext(v.getContext()).getSupportFragmentManager(), picker.toString());
+                scheduleDialogToDismiss(v.getContext(), picker);
             } else if (v == timeButton) {
                 // New Time
                 Calendar calendar = Calendar.getInstance();
@@ -117,6 +127,7 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
                     update();
                 });
                 picker.show(getActivityFromContext(v.getContext()).getSupportFragmentManager(), picker.toString());
+                scheduleDialogToDismiss(v.getContext(), picker);
             }
         }
     }

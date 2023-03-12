@@ -9,7 +9,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.ListPreference;
 import androidx.preference.ListPreferenceDialogFragmentCompat;
 import androidx.preference.Preference;
@@ -22,7 +21,7 @@ import java.util.Objects;
 import io.github.studio116.phoenixplan.databinding.ActivitySettingsBinding;
 import io.github.studio116.phoenixplan.notification.Scheduler;
 
-public class SettingsActivity extends AppCompatActivity implements PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback {
+public class SettingsActivity extends BaseActivity implements PreferenceFragmentCompat.OnPreferenceDisplayDialogCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
