@@ -63,29 +63,34 @@ public class EditTimelineObjectDialog implements View.OnClickListener {
             throw new UnsupportedOperationException();
         }
 
+        private static void copyDateFromCalender(Calendar src, Calendar dst) {
+            int year = src.get(Calendar.YEAR);
+            int month = src.get(Calendar.MONTH);
+            int day = src.get(Calendar.DAY_OF_MONTH);
+            dst.set(Calendar.YEAR, year);
+            dst.set(Calendar.MONTH, month);
+            dst.set(Calendar.DAY_OF_MONTH, day);
+        }
+
         @Override
         public void onClick(View v) {
             if (v == dateButton) {
                 // New Date
                 Calendar calendar = Calendar.getInstance();
                 calendar.setTime(date);
+                Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+                copyDateFromCalender(calendar, utcCalendar);
                 MaterialDatePicker<Long> picker = MaterialDatePicker.Builder.datePicker()
                         .setTitleText(R.string.pick_date)
-                        .setSelection(calendar.getTimeInMillis())
+                        .setSelection(utcCalendar.getTimeInMillis())
                         .build();
                 picker.addOnPositiveButtonClickListener(v1 -> {
                     Long selection = picker.getSelection();
                     if (selection != null) {
-                        Calendar utcCalendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
                         Date selectedDate = new Date(selection);
                         utcCalendar.setTime(selectedDate);
-                        int year = utcCalendar.get(Calendar.YEAR);
-                        int month = utcCalendar.get(Calendar.MONTH);
-                        int day = utcCalendar.get(Calendar.DAY_OF_MONTH);
                         calendar.setTime(date);
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, month);
-                        calendar.set(Calendar.DAY_OF_MONTH, day);
+                        copyDateFromCalender(utcCalendar, calendar);
                         date = calendar.getTime();
                         // Update
                         update();
